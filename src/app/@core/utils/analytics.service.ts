@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { NbThemeService } from '@nebular/theme';
 
 declare const ga: any;
 
@@ -9,8 +10,12 @@ declare const ga: any;
 export class AnalyticsService {
   private enabled: boolean;
 
-  constructor(private location: Location, private router: Router) {
+  constructor(private location: Location, private router: Router, private themeService: NbThemeService) {
     this.enabled = false;
+
+    document.addEventListener('variant-load', (e) => {
+      this.themeService.changeTheme('default');
+    }, false);
   }
 
   trackPageViews() {
